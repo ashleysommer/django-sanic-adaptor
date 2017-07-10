@@ -166,7 +166,7 @@ class SanicHandler(BaseHandler):
                 break
 
         if response is None:
-            response = self._get_response(request)
+            response = await self._get_response_inner_dj_1_10(request)
 
         return response
 
