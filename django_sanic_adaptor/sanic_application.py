@@ -313,7 +313,7 @@ def get_sanic_application():
     """
     Sets up django and returns a Sanic application
     """
-    if sys.version < (3, 5):
+    if sys.version_info < (3, 5):
         raise RuntimeError("The SanicDjango Adaptor may only be used with python 3.5 and above.")
     django.setup()
     from django.conf import settings
