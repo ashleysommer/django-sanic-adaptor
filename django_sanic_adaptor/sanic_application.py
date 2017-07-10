@@ -18,13 +18,13 @@ try:
     from django.core.exceptions import (
         PermissionDenied, SuspiciousOperation,
     )
-    from django.utils.version import get_main_version
+    from django.utils.version import get_complete_version
     from django.http.multipartparser import MultiPartParserError
     from django.conf import settings
     from django.core import signals, urlresolvers
     from django.core.handlers.base import BaseHandler
     from django.views import debug
-    django_version = get_main_version(None)
+    django_version = get_complete_version(None)
     if django_version >= (1, 10, 0):
         from django.urls import get_resolver, get_urlconf, set_urlconf
         from django.core.exceptions import ImproperlyConfigured, MiddlewareNotUsed
