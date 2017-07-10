@@ -51,7 +51,7 @@ class SanicHandler(BaseHandler):
     request_class = SanicDjangoAdaptorRequest
 
     def __new__(cls, *args, **kwargs):
-        super(SanicHandler, cls).__new__(cls)
+        cls = super(SanicHandler, cls).__new__(cls)
         if django_version >= (1, 10, 0):
             cls.async_get_response = cls.async_get_response_dj_1_10
             cls._get_response = cls._get_response_inner_dj_1_10
@@ -59,7 +59,7 @@ class SanicHandler(BaseHandler):
             cls.async_load_middleware = cls.async_load_middleware_dj_1_10
         else:
             cls.async_get_response = cls.async_get_response_dj_1_8
-
+        return cls
 
     def __init__(self, app):
         super(SanicHandler, self).__init__()
