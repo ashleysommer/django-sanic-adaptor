@@ -1,14 +1,28 @@
 import cgi
 import warnings
 
-from django.http import QueryDict as DjangoQueryDict, parse_cookie
-from django.http.request import HttpRequest as DjangoHttpRequest
-from django.http.response import HttpResponse as DjangoHttpResponse, StreamingHttpResponse as DjangoStreamingResponse
-from django.utils import datastructures
-from django.utils.functional import cached_property
-from sanic.request import Request as SanicRequest
-from sanic.response import HTTPResponse as SanicHttpResponse, StreamingHTTPResponse as SanicStreamingResponse
+try:
+    import django
+    from django.http import QueryDict as DjangoQueryDict, parse_cookie
+    from django.http.request import HttpRequest as DjangoHttpRequest
+    from django.http.response import HttpResponse as DjangoHttpResponse, \
+        StreamingHttpResponse as DjangoStreamingResponse
+    from django.utils import datastructures
+    from django.utils.functional import cached_property
+except ImportError:
+    print("Django is not installed. Please install it before using this library.")
+    DjangoHttpRequest = DjangoHttpResponse = DjangoStreamingResponse = object
+    def cached_property(fn):
+        """Dummy cached_property fn, to make setup.py work before installed."""
+        return fn
 
+try:
+    import sanic
+    from sanic.request import Request as SanicRequest
+    from sanic.response import HTTPResponse as SanicHttpResponse, StreamingHTTPResponse as SanicStreamingResponse
+except ImportError:
+    print("Sanic is not installed. Please install it before using this library.")
+    SanicRequest = SanicHttpResponse = SanicStreamingResponse = object
 
 class WSGIRequest(DjangoHttpRequest):
     def __init__(self, environ):

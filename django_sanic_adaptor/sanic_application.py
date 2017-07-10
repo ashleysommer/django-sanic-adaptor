@@ -4,21 +4,30 @@ import types
 from inspect import isawaitable
 from traceback import format_exc
 
-from sanic import Sanic
-from sanic.exceptions import NotFound
-from sanic.response import HTTPResponse, StreamingHTTPResponse
-from sanic_adaptor import SanicDjangoAdaptorRequest, SanicDjangoAdaptorResponse, SanicDjangoAdaptorStreamingResponse
-import django
-from django import http
-from django.core.exceptions import (
-    PermissionDenied, SuspiciousOperation,
-)
-from django.utils.encoding import force_text
-from django.http.multipartparser import MultiPartParserError
-from django.conf import settings
-from django.core import signals, urlresolvers
-from django.core.handlers.base import BaseHandler
-from django.views import debug
+try:
+    import sanic
+    from sanic import Sanic
+    from sanic.exceptions import NotFound
+    from sanic.response import HTTPResponse, StreamingHTTPResponse
+except ImportError:
+    print("Sanic is not installed. Please install it before using this library.")
+try:
+    import django
+    from django import http
+    from django.core.exceptions import (
+        PermissionDenied, SuspiciousOperation,
+    )
+    from django.utils.encoding import force_text
+    from django.http.multipartparser import MultiPartParserError
+    from django.conf import settings
+    from django.core import signals, urlresolvers
+    from django.core.handlers.base import BaseHandler
+    from django.views import debug
+except ImportError:
+    print("Django is not installed. Please install it before using this library.")
+    BaseHandler = object
+
+from django_sanic_adaptor import SanicDjangoAdaptorRequest, SanicDjangoAdaptorResponse, SanicDjangoAdaptorStreamingResponse
 
 logger = logging.getLogger('django.request')
 
